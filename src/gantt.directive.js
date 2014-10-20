@@ -47,7 +47,7 @@ gantt.constant('GANTT_EVENTS',
         'TIMESPAN_CHANGED': 'event:gantt-timespan-changed'
     });
 
-gantt.directive('gantt', ['Gantt', 'moment', 'mouseOffset', 'debounce', 'keepScrollPos', 'Events', 'GANTT_EVENTS', function(Gantt, moment, mouseOffset, debounce, keepScrollPos, Events, GANTT_EVENTS) {
+gantt.directive('gantt', ['Gantt', 'moment', 'mouseOffset', 'debounce', 'keepScrollPos', 'Events', 'Calendar', 'GANTT_EVENTS', function(Gantt, moment, mouseOffset, debounce, keepScrollPos, Events, Calendar, GANTT_EVENTS) {
     return {
         restrict: 'EA',
         replace: true,
@@ -84,6 +84,8 @@ gantt.directive('gantt', ['Gantt', 'moment', 'mouseOffset', 'debounce', 'keepScr
             showTooltips: '=?', // True when tooltips shall be enabled. Default (true)
             headers: '=?', // An array of units for headers.
             headersFormats: '=?', // An array of corresponding formats for headers.
+            timeFrames: '=?',
+            dateFrames: '=?',
             timespans: '=?',
             data: '=?',
             loadTimespans: '&',
@@ -160,6 +162,20 @@ gantt.directive('gantt', ['Gantt', 'moment', 'mouseOffset', 'debounce', 'keepScr
                 }
                 return format;
             };
+
+            $scope.calendar = new Calendar();
+            $scope.calendar.registerTimeFrames($scope.timeFrames);
+            $scope.calendar.registerDateFrames($scope.dateFrames);
+
+            $scope.$watch('timeFrames', function() {
+                $scope.calendar.clearTimeFrames();
+                $scope.calendar.registerTimeFrames($scope.timeFrames);
+            });
+
+            $scope.$watch('dateFrames', function() {
+                $scope.calendar.clearDateFrames();
+                $scope.calendar.registerDateFrames($scope.dateFrames);
+            });
 
             // Gantt logic
             $scope.template = {};
