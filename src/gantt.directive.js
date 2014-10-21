@@ -86,6 +86,8 @@ gantt.directive('gantt', ['Gantt', 'moment', 'mouseOffset', 'debounce', 'keepScr
             headersFormats: '=?', // An array of corresponding formats for headers.
             timeFrames: '=?',
             dateFrames: '=?',
+            timeFramesWorkingMode: '=?',
+            timeFramesNonWorkingMode: '=?',
             timespans: '=?',
             data: '=?',
             loadTimespans: '&',
@@ -149,6 +151,12 @@ gantt.directive('gantt', ['Gantt', 'moment', 'mouseOffset', 'debounce', 'keepScr
             }
             if ($scope.showTooltips === undefined) {
                 $scope.showTooltips = true;
+            }
+            if ($scope.timeFramesWorkingMode === undefined) {
+                $scope.timeFramesWorkingMode = 'hidden';
+            }
+            if ($scope.timeFramesNonWorkingMode === undefined) {
+                $scope.timeFramesNonWorkingMode = 'visible';
             }
 
             var defaultHeadersFormats = {'year': 'YYYY', 'quarter': '[Q]Q YYYY', month: 'MMMM YYYY', week: 'w', day: 'D', hour: 'H', minute:'HH:mm'};
